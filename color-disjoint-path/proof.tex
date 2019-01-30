@@ -1,0 +1,106 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\begin{document}
+
+  \paragraph{Given:} 
+    \begin{itemize}
+      \item A set of colors, $C$
+
+      \item A directed graph $G=(V,E,w,c)$, where:
+        \begin{itemize}
+          \item $V$ is the node set of $G$
+          \item $E$ is the edge set of $G$
+          \item $c: E \rightarrow C$ is a function specifying a color
+          for each edge in $G$
+        \end{itemize}
+
+      \item A source $s \in V$ and a target $t \in V$ 
+
+    \end{itemize}
+
+  \paragraph{Definitions:} 
+    \begin{itemize}
+      \item A \textit{color-disjoint} path in $G$ is a path that uses
+      at most one edge of each color in $C$.
+    \end{itemize}
+
+  \paragraph{Prove:} Finding a color-disjoint $s$--$t$ path in $G$ is
+  NP-complete.
+
+  \paragraph{Proof: Reduction of Set Packing}
+  \begin{itemize}
+    \item \textbf{Given:} an instance $P$ of Set Packing described by:
+      \begin{itemize}
+        \item A set $S$
+        \item A list $L$ consisting of $n$ subsets of $S$
+        \item $k \in \mathbb{Z}^+$.
+      \end{itemize}
+
+      Set Packing asks whether there exist $k$ pairwise-disjoint
+      subsets of $S$ among the $n$ provided.
+
+    \item \label{transform} \textbf{Transformation:} Transform $P$
+    as follows: 
+      \begin{enumerate}
+        \item Define a one-to-one function $m: S \rightarrow C$
+        mapping each set element to a unique color. Create a set $C'$ 
+        of additional $2k$ colors. 
+
+        \item \label{paths} For each subset $l$ in $L$, define a
+        corresponding graph given by a path, as follows: 
+          \begin{itemize}
+            \item Let each edge of the path correspond to a unique
+            element $e$ of $l$.
+
+            \item Assign to each edge the color of its corresponding
+            element. 
+          \end{itemize}
+
+        \item \label{component} For each path $p$ defined in
+        \ref{paths}, create a graph with a source node $a$ connected
+        to the start of a copy of $p$, and a target node $b$ connected
+        to the end of the copy. Choose a color from the additional
+        $2k$ colors in $C'$ and add assign this color to each edge
+        incident on $a$. Then, remove the color from $C'$ and add it
+        to $C$. Do the same for each edge incident on $b$.
+
+        \item Repeat the process described in \ref{component} $k$
+        times. Let $s$ be the source node of the first graph created.
+        Let $t$ be the target node of the last graph created. Join all
+        $k$ graphs sequentially by defining the target node of the
+        first graph as the source node of the second graph, and so on:
+        let $G$ be the graph so produced.
+        
+      \end{enumerate}
+
+    \item \textbf{Implications} 
+      \begin{enumerate}
+        \item \label{dir1} 
+        \textbf{Color-Disjoint Path $\implies$ Set Packing}
+        By construction, the existence of any $a$--$b$ path in the
+        graph defined by \ref{transform} directly implies the existence
+        of $k$ disjoint subsets of $S$.
+
+        \item \label{dir2}
+        \textbf{Set Packing $\implies$ Color-Disjoint Path}
+        The existence of a color-disjoint path in $G$ is similarly 
+        implied by the existence of $k$ pairwise-disjoint subsets in
+        $L$. Note that the path will include an additional $2k$ edges
+        to account for the traversal from the source node, between
+        the intermediate nodes, and to the target node.
+
+        \item \label{done} By \ref{dir1} and \ref{dir2}, we have a reduction
+        from Set Packing to the Color-Disjoint Path problem.
+
+        \item By \ref{done}, we have that the task of finding a 
+        color-disjoint path in a graph is NP-complete.
+
+      \end{enumerate}
+
+  \end{itemize}
+  \qed
+    
+\end{document}
