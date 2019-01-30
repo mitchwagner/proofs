@@ -9,7 +9,7 @@
     \begin{itemize}
       \item A set of colors, $C$
 
-      \item A directed graph $G=(V,E,w,c)$, where:
+      \item A directed graph $G=(V,E,c)$, where:
         \begin{itemize}
           \item $V$ is the node set of $G$
           \item $E$ is the edge set of $G$
@@ -59,20 +59,21 @@
             element. 
           \end{itemize}
 
-        \item \label{component} For each path $p$ defined in
-        \ref{paths}, create a graph with a source node $a$ connected
-        to the start of a copy of $p$, and a target node $b$ connected
-        to the end of the copy. Choose a color from the additional
-        $2k$ colors in $C'$ and add assign this color to each edge
-        incident on $a$. Then, remove the color from $C'$ and add it
-        to $C$. Do the same for each edge incident on $b$.
+        \item \label{component} Create a copy of each path $p$ defined in
+        \ref{paths}. Create a graph by combining these copies, with a
+        source node $a$ connected to the start of each copied path, and a
+        target node $b$ connected to the end of each copied path.
+        Choose a color from the additional $2k$ colors in $C'$ and add
+        assign this color to each edge incident on $a$. Then, remove
+        the color from $C'$ and add it to $C$. Do the same for each
+        edge incident on $b$.
 
         \item Repeat the process described in \ref{component} $k$
-        times. Let $s$ be the source node of the first graph created.
-        Let $t$ be the target node of the last graph created. Join all
-        $k$ graphs sequentially by defining the target node of the
-        first graph as the source node of the second graph, and so on:
-        let $G$ be the graph so produced.
+        times. Join all $k$ graphs sequentially by defining the target
+        node of the first graph as the source node of the second
+        graph, and so on: let $G$ be the graph so produced. Let $s$ be
+        the source node of the first graph created. Let $t$ be the
+        target node of the last graph created.
         
       \end{enumerate}
 
